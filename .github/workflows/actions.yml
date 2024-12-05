@@ -17,8 +17,9 @@ jobs:
         uses: super-linter/super-linter@v7.2.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Required for reporting status to GitHub
-          DISABLE_CHECKOV: true  # Optionally disable Checkov if not needed
-          DISABLE_HTML_PRETTIER: true  # Optionally disable Prettier for HTML files
+          DISABLE_CHECKOV: true  # Disable Checkov linter
+          DISABLE_HTML_PRETTIER: true  # Disable Prettier for HTML files
+          DISABLE_JSON_PRETTIER: true  # Disable Prettier for JSON files
 
   build:
     runs-on: ubuntu-latest
