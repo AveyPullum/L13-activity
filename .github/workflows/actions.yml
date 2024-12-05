@@ -12,7 +12,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run TruffleHog to find secrets
-        uses: trufflesecurity/trufflehog-action@v1
+        uses: trufflesecurity/trufflehog@v2  # Update to use v2
         with:
           # Set the TruffleHog scan depth (e.g., to scan 100 commits)
           depth: 100
@@ -45,5 +45,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-
-        
