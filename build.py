@@ -1,6 +1,7 @@
-from datetime import datetime
 import os
+from datetime import datetime
 from zoneinfo import ZoneInfo
+
 
 def update_time():
     # Read in the file
