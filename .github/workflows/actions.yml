@@ -1,12 +1,29 @@
-on: push
+on:
+  push:
+    branches:
+      - main  # Trigger on pushes to the main branch
 
 jobs:
+  trufflehog:
+    runs-on: ubuntu-latest
+    name: Run TruffleHog OSS
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run TruffleHog to find secrets
+        uses: trufflesecurity/trufflehog-action@v1.0.0
+        with:
+          # Set the TruffleHog scan depth (e.g., to scan 100 commits)
+          depth: 100
+
   build:
     runs-on: ubuntu-latest
+    needs: trufflehog  # Ensure build runs after TruffleHog completes
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
-        
+
       - name: Build the index.html file
         run: python build.py
 
@@ -20,7 +37,7 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    needs: build
+    needs: build  # Ensure deploy runs after the build job
     permissions:
       pages: write
       id-token: write
