@@ -1,26 +1,22 @@
-on: 
-  push:
-    branches:
-      - main  # Run the action on pushes to the main branch
+on: push  # Trigger on push events
 
 jobs:
   linter:
-    runs-on: ubuntu-latest
-    name: Run Super Linter
+    runs-on: ubuntu-latest  # Run on an Ubuntu VM
+    name: Run Super Linter  # Give the job a name
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0  # Super Linter needs full git history for file changes
-
+          
       - name: Run Super Linter
-        uses: super-linter/super-linter@v7.2.0
+        uses: super-linter/super-linter@v7.2.0  # Use Super Linter action
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Token for GitHub status reporting
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # GitHub token for reporting status
 
   build:
     runs-on: ubuntu-latest
-    needs: linter  # Ensure that linter runs first
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
@@ -38,7 +34,7 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    needs: build
+    needs: build  # Ensure deploy runs after the build job
     permissions:
       pages: write
       id-token: write
@@ -46,3 +42,4 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
